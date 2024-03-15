@@ -80,23 +80,16 @@ function getDayName(date) {
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
 function getNextFriday(date) {
-  const DAY_INDEX_FRIDAY = 5;
-  const DAYS_IN_WEEK = 7;
+  const currentDay = date.getDay();
+  let daysToFriday = (5 - currentDay + 7) % 7;
+  daysToFriday = daysToFriday === 0 ? 7 : daysToFriday;
 
-  const inputTimestamp = date.getTime();
-  const inputDayIndex = date.getDay();
+  const nextFriday = new Date(date);
+  nextFriday.setDate(date.getDate() + (currentDay === 5 ? 7 : daysToFriday));
 
-  const daysUntilNextFriday =
-    (DAY_INDEX_FRIDAY - inputDayIndex + DAYS_IN_WEEK) % DAYS_IN_WEEK ||
-    DAYS_IN_WEEK;
-
-  const nextFridayTimestamp =
-    inputTimestamp + daysUntilNextFriday * 24 * 60 * 60 * 1000;
-
-  const nextFridayDate = new Date(nextFridayTimestamp);
-
-  return nextFridayDate;
+  return nextFriday;
 }
+
 /**
  * Returns the number of days in a specified month and year.
  *
